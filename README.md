@@ -5,6 +5,7 @@
 | Woche               | Thema                     | Material                                                                  |
 | :------------------ | :------------------------ | :------------------------------------------------------------------------ |
 | 05. - 09. April     | Einführung, Terminplanung | [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/00-Einfuehrung/Formal.pdf) |
+| 12. - 16. April     | Farbräume, Bildverarbeitung| [Vorlesung](https://youtu.be/kBZoBG6i1Vc)|
 
 ## Ablauf
 
