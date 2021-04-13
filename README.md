@@ -19,7 +19,9 @@ Und noch eine Bitte von unserem Administrator: Wenn Ihr Euch im BBB registriert 
 
 ## Entwicklungsumgebung
 
-Für die C-Übung und etwaige Hausaufgaben benötigen Sie einen C-Kompiler und einen Texteditor.
+Für die C-Übung und etwaige Hausaufgaben benötigt Ihr einen C-Kompiler und einen Texteditor.
+Im Idealfall verwendet Ihr eine native unixoide Umgebung. 
+
 Außerdem von Vorteil: git, cmake, später auch Bibliotheken (OpenGL, glfw, glad)
 
 ### Texteditoren
@@ -30,6 +32,8 @@ Außerdem von Vorteil: git, cmake, später auch Bibliotheken (OpenGL, glfw, glad
 - vim, emacs, geany...
 
 ### Kompiler
+- gcc, clang
+
 #### Linux
 - Debian(-basierte, Ubuntu, Mint...): <tt>sudo apt-get install build-essentials</tt>
 - Arch Linux(-basierte, Manjaro...): <tt>sudo pacman -S base-devel</tt>
@@ -40,9 +44,10 @@ Außerdem von Vorteil: git, cmake, später auch Bibliotheken (OpenGL, glfw, glad
 
 #### Windows
 
-##### Integrierte Entwicklungsumgebung (IDE)
-- Pelles C
-- Visual Studio
+##### Videos zur Einrichtung von Entwicklungsumgebungen unter Windows
+- [Subsystem](https://youtu.be/6xWLpVFxI_Y)
+- [Cygwin](https://youtu.be/VDPGdi4nYPE)
+- [Ubuntu in der VM](https://youtu.be/vqNA219bj4I)
 
 ##### Linux Subsystem
 Seit 2016 bietet Windows 10 die Möglichkeit ein Linux-Subsystem zu verwenden. [Hier](https://msdn.microsoft.com/en-us/commandline/wsl/install-win10) finden Sie eine Anleitung dazu. Anschließend können Sie gcc, wie unter "Linux" beschrieben, installieren.
@@ -54,7 +59,6 @@ Seit 2016 bietet Windows 10 die Möglichkeit ein Linux-Subsystem zu verwenden. [
 ##### MinGW
 - [MinGW inkl. gcc installieren](http://www.mingw.org/wiki/howto_install_the_mingw_gcc_compiler_suite)
 
-#### Videos zur Einrichtung von Entwicklungsumgebungen unter Windows
-- [Subsystem](https://youtu.be/6xWLpVFxI_Y)
-- [Cygwin](https://youtu.be/VDPGdi4nYPE)
-- [Ubuntu in der VM](https://youtu.be/vqNA219bj4I)
+##### Integrierte Entwicklungsumgebung (IDE)
+- Pelles C
+- Visual Studio
