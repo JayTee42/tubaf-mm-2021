@@ -16,3 +16,45 @@ aufgrund der Corona-Pandemie findet Multimedia in diesem Semester in digitaler F
 Für Ankündigungen, Terminänderungen etc. werden wir grundsätzlich dieses GitHub-Repo sowie (in dringenden Fällen) eine Mailingliste nutzen, die in der Einführungsveranstaltung initiiert wird. Der OPAL-Kurs wird nicht weiter aktualisiert werden.
 
 Und noch eine Bitte von unserem Administrator: Wenn Ihr Euch im BBB registriert (kein Zwang), verwendet bitte Eure Unimail-Adresse, damit Ihr nicht fälschlicherweise als Spam eingeordnet werdet.
+
+## Entwicklungsumgebung
+
+Für die C-Übung und etwaige Hausaufgaben benötigen Sie einen C-Kompiler und einen Texteditor.
+Außerdem von Vorteil: git, cmake, später auch Bibliotheken (OpenGL, glfw, glad)
+
+###Texteditoren
+- Sublime Text 3 (Win, Mac, Linux)
+- Visual Studio Code
+- Atom (Win, Mac, Linux)
+- Notepad++ (Win)
+- vim, emacs, geany...
+
+###Kompiler
+####Linux
+- Debian(-basierte, Ubuntu, Mint...): <tt>sudo apt-get install build-essentials</tt>
+- Arch Linux(-basierte, Manjaro...): <tt>sudo pacman -S base-devel</tt>
+
+####Mac
+- XCode aus dem AppStore installieren
+- Terminal: <tt>xcode-select --install</tt>
+
+####Windows
+
+#####Integrierte Entwicklungsumgebung (IDE)
+- Pelles C
+- Visual Studio
+
+#####Linux Subsystem
+Seit 2016 bietet Windows 10 die Möglichkeit ein Linux-Subsystem zu verwenden. [Hier](https://msdn.microsoft.com/en-us/commandline/wsl/install-win10) finden Sie eine Anleitung dazu. Anschließend können Sie gcc, wie unter "Linux" beschrieben, installieren.
+
+#####Cygwin
+- [Cygwin installieren](https://warwick.ac.uk/fac/sci/moac/people/students/peter_cock/cygwin/part1)
+- [gcc für Cygwin installieren](https://warwick.ac.uk/fac/sci/moac/people/students/peter_cock/cygwin/part2)
+
+#####MinGW
+- [MinGW inkl. gcc installieren](http://www.mingw.org/wiki/howto_install_the_mingw_gcc_compiler_suite)
+
+####Videos zur Einrichtung von Entwicklungsumgebungen unter Windows
+Subsystem:      https://youtu.be/6xWLpVFxI_Y
+Cygwin:         https://youtu.be/VDPGdi4nYPE
+Ubuntu:         https://youtu.be/vqNA219bj4I
