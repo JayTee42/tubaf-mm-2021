@@ -19,6 +19,16 @@ Für Ankündigungen, Terminänderungen etc. werden wir grundsätzlich dieses Git
 
 Und noch eine Bitte von unserem Administrator: Wenn Ihr Euch im BBB registriert (kein Zwang), verwendet bitte Eure Unimail-Adresse, damit Ihr nicht fälschlicherweise als Spam eingeordnet werdet.
 
+## Stundenplan
+
+Nach ausführlicher [Terminabsprache](https://doodle.com/poll/h2nvrv6kan2qk34h) mit Euch haben wir uns auf den folgenden zeitlichen Ablauf geeinigt:
+
+ - **Montag (ungerade Woche)**: Ben und ich veröffentlichen hier im Repo (und per Mailingliste) ein Video, das den theoretischen Vorlesungsstoff für die jeweilige Woche beinhaltet. Ihr habt bis zum Mittwochstermin Zeit, Euch mit den Inhalten vertraut zu machen.
+ - **Mittwoch, 14:00 Uhr bis (maximal) 17:30 Uhr (ungerade Woche)**: Wir treffen uns zum praktischen Teil im [BBB](https://teach.informatik.tu-freiberg.de/b/jon-9z6-k3j) und programmieren zusammen. Diese Veranstaltungen werden aufgezeichnet und ebenfalls hier verlinkt. Anschließend bekommt Ihr eine Hausaufgabe, die ca. 14 Tage Bearbeitungszeit hat.
+ - **Donnerstag, 11:30 Uhr (ungerade Woche)**: Für diejenigen TeilnehmerInnen, die am Mittwoch nicht durchweg Zeit haben, bieten wir hier einen weiteren Termin zur Konsultation im [BBB](https://teach.informatik.tu-freiberg.de/b/jon-9z6-k3j) an. Dort können z.B. Fragen zum Theorieteil oder zur Programmierung beantwortet werden.
+
+Der 09:30-Uhr-Termin am Dienstag fällt zukünftig weg. Vielen Dank für Eure Kompromissbereitschaft bei der Terminplanung :)
+
 ## Entwicklungsumgebung
 
 Für die C-Übung und etwaige Hausaufgaben benötigt Ihr einen C-Kompiler und einen Texteditor.
