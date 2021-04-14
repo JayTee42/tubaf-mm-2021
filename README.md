@@ -7,7 +7,7 @@
 | 05. - 09. April     | Einführung, Terminplanung | [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/00-Einfuehrung/Formal.pdf) |
 | 12. - 16. April     | Farbräume, Bildverarbeitung| [Vorlesung](https://youtu.be/kBZoBG6i1Vc), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/01-Farbmodelle/vl01.pdf), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/01-Farbmodelle/Hausaufgabe1.md)|
 
-> Die nächte Veranstaltung findet am 14.04.2021 ab 14 Uhr statt (Programmierübung zur Bildverarbeitung)
+> Die nächte Veranstaltung findet am 28.04.2021 ab 14 Uhr statt (Programmierübung zu SIMD-Instruktionen)
 
 ## Ablauf
 
