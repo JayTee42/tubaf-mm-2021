@@ -1,14 +1,47 @@
 #include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "bitmap.h"
 
-void manipulate(bitmap_pixel_rgb_t* pixels, int count)
+static void apply_quant_err_comp(bitmap_component_t* c, int qe, int fac)
 {
-	for (int i = 0; i < count; i++)
+	int new_c = *c + ((qe * fac) / 16);
+	*c = (new_c < 0) ? 0 : (new_c > 255) ? 255 : new_c;
+}
+
+static void apply_quant_err(bitmap_pixel_rgb_t* pixels, int width, int height, int x, int y, const int* qe, int fac)
+{
+	if ((x >= 0) && (x < width) && (y < height))
 	{
-		// TODO
+		bitmap_pixel_rgb_t* pix = &pixels[(width * y) + x];
+
+		apply_quant_err_comp(&pix->r, qe[0], fac);
+		apply_quant_err_comp(&pix->g, qe[1], fac);
+		apply_quant_err_comp(&pix->b, qe[2], fac);
+	}
+}
+
+static void floyd_steinberg(bitmap_pixel_rgb_t* pixels, int width, int height)
+{
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			// Get a pointer to the pixel and calculate the black / white value.
+			bitmap_pixel_rgb_t* pix = &pixels[(width * y) + x];
+			bitmap_component_t gs = ((30 * pix->r) + (59 * pix->g) + (11 * pix->b)) / 100;
+			bitmap_component_t bw = (gs > 160) * 255;
+
+			// Remember the quantization error in all components before assigning the black / white value.
+			int qe[] = { pix->r - bw, pix->g - bw, pix->b - bw };
+			pix->r = pix->g = pix->b = bw;
+
+			// Distribute the error onto the neighbours.
+			apply_quant_err(pixels, width, height, x + 1, y, qe, 7);
+			apply_quant_err(pixels, width, height, x - 1, y + 1, qe, 3);
+			apply_quant_err(pixels, width, height, x, y + 1, qe, 5);
+			apply_quant_err(pixels, width, height, x + 1, y + 1, qe, 1);
+		}
 	}
 }
 
@@ -28,38 +61,24 @@ int main(void)
 	);
 
 	assert(error == BITMAP_ERROR_SUCCESS);
-	printf("Bitmap dimensions: %d x %d\n", width, height);
 
 	// Manipulate the pixels.
-	manipulate(pixels, width * height);
+	floyd_steinberg(pixels, width, height);
 
 	// Write the pixels back.
 	bitmap_parameters_t params =
 	{
-		// Is this bitmap bottom-up?
 		.bottomUp = BITMAP_BOOL_TRUE,
-
-		// Width in pixels:
 		.widthPx = width,
-
-		// Height in pixels:
 		.heightPx = height,
-
-		// Which color depth is used?
 		.colorDepth = BITMAP_COLOR_DEPTH_24,
-
-		// Which compression is used?
 		.compression = BITMAP_COMPRESSION_NONE,
-
-		// Which kind of DIB header is used?
 		.dibHeaderFormat = BITMAP_DIB_HEADER_INFO,
-
-		// The color space the user provides:
 		.colorSpace = BITMAP_COLOR_SPACE_RGB
 	};
 
 	error = bitmapWritePixels(
-		"sails_mod.bmp",
+		"sails_dither.bmp",
 		BITMAP_BOOL_TRUE,
 		&params,
 		(bitmap_pixel_t*)pixels
