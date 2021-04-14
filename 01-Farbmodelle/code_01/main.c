@@ -16,7 +16,7 @@ int main(void)
 {
 	// Read the bitmap pixels.
 	bitmap_error_t error;
-	int width, height;
+	size_t width, height;
 	bitmap_pixel_rgb_t* pixels;
 
 	error = bitmapReadPixels(
@@ -28,7 +28,7 @@ int main(void)
 	);
 
 	assert(error == BITMAP_ERROR_SUCCESS);
-	printf("Bitmap dimensions: %d x %d\n", width, height);
+	printf("Bitmap dimensions: %ld x %ld\n", width, height);
 
 	// Manipulate the pixels.
 	manipulate(pixels, width * height);

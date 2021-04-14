@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -c -Wall -g -Os
+CFLAGS = -c -Wall -g -Os -Wextra
 LD = $(CC)
 LDFLAGS = -lm
 

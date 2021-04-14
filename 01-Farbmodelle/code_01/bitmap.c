@@ -8,7 +8,6 @@
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 //Includes from POSIX:
@@ -208,7 +207,7 @@ bitmap_pixel_t rgbToPixel(bitmap_pixel_rgb_t pixel, bitmap_color_space_t colorSp
 //- BITMAP_ERROR_IO  A read error has occurred. Includes unexpected EOF.
 //
 //The file will not be closed by this function.
-bitmap_error_t bitmapReadBytes(FILE* file, uint8_t* buffer, int count)
+bitmap_error_t bitmapReadBytes(FILE* file, uint8_t* buffer, size_t count)
 {
 	if (fread(buffer, 1, count, file) != count)
 	{
@@ -266,11 +265,11 @@ bitmap_error_t bitmapReadI32(FILE* file, int32_t* value)
 
 //Internal pixel row read function (BITMAP_COLOR_DEPTH_1).
 //The buffers will not be released by this function.
-void bitmapReadRowColorDepth_1(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, int rowPx)
+void bitmapReadRowColorDepth_1(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, uint32_t rowPx)
 {
 	uint32_t widthPx = bitmap->parameters.widthPx;
-	int pixelsRead = 0;
-	int baseIndex = rowPx * widthPx;
+	uint32_t pixelsRead = 0;
+	uint32_t baseIndex = rowPx * widthPx;
 
 	do
 	{
@@ -295,12 +294,12 @@ void bitmapReadRowColorDepth_1(bitmap_t* bitmap, const uint8_t* rowData, bitmap_
 //Internal pixel row read function (BITMAP_COLOR_DEPTH_8).
 //The buffers will not be released by this function.
 
-void bitmapReadRowColorDepth_8(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, int rowPx)
+void bitmapReadRowColorDepth_8(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, uint32_t rowPx)
 {
 	uint32_t widthPx = bitmap->parameters.widthPx;
-	int baseIndex = rowPx * widthPx;
+	uint32_t baseIndex = rowPx * widthPx;
 
-	for (int colPx = 0; colPx < widthPx; colPx++)
+	for (uint32_t colPx = 0; colPx < widthPx; colPx++)
 	{
 		outputData[baseIndex + colPx] = bitmap->parameters.colorTable[rowData[colPx]];
 	}
@@ -309,13 +308,13 @@ void bitmapReadRowColorDepth_8(bitmap_t* bitmap, const uint8_t* rowData, bitmap_
 //Internal pixel row read function (BITMAP_COLOR_DEPTH_24).
 //The buffers will not be released by this function.
 
-void bitmapReadRowColorDepth_24(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, int rowPx)
+void bitmapReadRowColorDepth_24(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, uint32_t rowPx)
 {
 	uint32_t widthPx = bitmap->parameters.widthPx;
 	bitmap_color_space_t colorSpace = bitmap->parameters.colorSpace;
-	int baseIndex = rowPx * widthPx;
+	uint32_t baseIndex = rowPx * widthPx;
 
-	for (int colPx = 0; colPx < widthPx; colPx++)
+	for (uint32_t colPx = 0; colPx < widthPx; colPx++)
 	{
 		bitmap_pixel_rgb_t currPixel;
 
@@ -331,13 +330,13 @@ void bitmapReadRowColorDepth_24(bitmap_t* bitmap, const uint8_t* rowData, bitmap
 //Internal pixel row read function (BITMAP_COLOR_DEPTH_32).
 //The buffers will not be released by this function.
 
-void bitmapReadRowColorDepth_32(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, int rowPx)
+void bitmapReadRowColorDepth_32(bitmap_t* bitmap, const uint8_t* rowData, bitmap_pixel_t* outputData, uint32_t rowPx)
 {
 	uint32_t widthPx = bitmap->parameters.widthPx;
 	bitmap_color_space_t colorSpace = bitmap->parameters.colorSpace;
-	int baseIndex = rowPx * widthPx;
+	uint32_t baseIndex = rowPx * widthPx;
 
-	for (int colPx = 0; colPx < widthPx; colPx++)
+	for (uint32_t colPx = 0; colPx < widthPx; colPx++)
 	{
 		bitmap_pixel_rgb_t currPixel;
 
@@ -398,7 +397,7 @@ bitmap_error_t bitmapReadPixelsCompression_None(bitmap_t* bitmap, bitmap_pixel_t
 	bitmap_error_t success;
 
 	//Read row by row:
-	for (int rowPx = 0; rowPx < heightPx; rowPx++)
+	for (uint32_t rowPx = 0; rowPx < heightPx; rowPx++)
 	{
 		//Read the row:
 		if ((success = bitmapReadBytes(bitmap->file, rowData, bytesPerRow)) != BITMAP_ERROR_SUCCESS)
@@ -767,7 +766,7 @@ bitmap_error_t bitmapReadDIBHeader_Info(bitmap_t* bitmap)
 		//Now shuffle the table to the right order:
 		bitmapLog(BITMAP_LOGGING_VERBOSE, "Color table (RGBA):");
 
-		for (int i = 0; i < bitmap->parameters.colorTableEntries; i++)
+		for (size_t i = 0; i < bitmap->parameters.colorTableEntries; i++)
 		{
 			bitmap_pixel_rgb_t currPixel = colorTable[i];
 			bitmap_pixel_rgb_t newPixel;
@@ -892,24 +891,28 @@ bitmap_error_t bitmapReadHeader(bitmap_t* bitmap)
             bitmapLog(BITMAP_LOGGING_VERBOSE, "Identified DIB header: BITMAP_DIB_HEADER_INFO_V5");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "DIB header format is not (yet) supported.");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "Trying fallback to V4 ...");
+			__attribute__((fallthrough));
 
         case BITMAP_DIB_HEADER_INFO_V4:
 
             bitmapLog(BITMAP_LOGGING_VERBOSE, "Identified DIB header: BITMAP_DIB_HEADER_INFO_V4");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "DIB header format is not (yet) supported.");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "Trying fallback to V3 ...");
+			__attribute__((fallthrough));
 
         case BITMAP_DIB_HEADER_INFO_V3:
 
             bitmapLog(BITMAP_LOGGING_VERBOSE, "Identified DIB header: BITMAP_DIB_HEADER_INFO_V3");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "DIB header format is not (yet) supported.");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "Trying fallback to V2 ...");
+			__attribute__((fallthrough));
 
         case BITMAP_DIB_HEADER_INFO_V2:
 
             bitmapLog(BITMAP_LOGGING_VERBOSE, "Identified DIB header: BITMAP_DIB_HEADER_INFO_V2");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "DIB header format is not (yet) supported.");
             bitmapLog(BITMAP_LOGGING_DEFAULT, "Trying fallback to V1 ...");
+			__attribute__((fallthrough));
 
 		case BITMAP_DIB_HEADER_INFO:
 
@@ -980,12 +983,12 @@ bitmap_error_t bitmapOpenFile(bitmap_t* bitmap, const char* filePath)
 }
 
 //User-accessible.
-bitmap_error_t bitmapReadPixels(const char* filePath, bitmap_pixel_t** pixels, int* widthPx, int* heightPx, bitmap_color_space_t colorSpace)
+bitmap_error_t bitmapReadPixels(const char* filePath, bitmap_pixel_t** pixels, size_t* widthPx, size_t* heightPx, bitmap_color_space_t colorSpace)
 {
 	//NULL the pointers:
 	*pixels = NULL;
-	*widthPx = 0;
-	*heightPx = 0;
+	*widthPx = 0U;
+	*heightPx = 0U;
 
 	//Init a bitmap struct:
 	bitmap_t bitmap;
@@ -1092,7 +1095,7 @@ bitmap_error_t bitmapReadPixels(const char* filePath, bitmap_pixel_t** pixels, i
 //- BITMAP_ERROR_IO  A write error has occurred.
 //
 //The file will not be closed by this function.
-bitmap_error_t bitmapWriteBytes(FILE* file, uint8_t* buffer, int count)
+bitmap_error_t bitmapWriteBytes(FILE* file, uint8_t* buffer, size_t count)
 {
 	if (fwrite(buffer, 1, count, file) != count)
 	{
@@ -1159,7 +1162,7 @@ bitmap_error_t bitmapWriteRowColorDepth_24(bitmap_t* bitmap, const bitmap_pixel_
 	//Status var:
 	bitmap_error_t success;
 
-	for (int colPx = 0; colPx < widthPx; colPx++)
+	for (uint32_t colPx = 0; colPx < widthPx; colPx++)
 	{
 		bitmap_pixel_rgb_t currPixel = pixelToRGB(rowData[colPx], colorSpace);
 		bitmap_component_t pixelData[3] = { currPixel.b, currPixel.g, currPixel.r };
@@ -1190,7 +1193,7 @@ bitmap_error_t bitmapWriteRowColorDepth_32(bitmap_t* bitmap, const bitmap_pixel_
 	//Status var:
 	bitmap_error_t success;
 
-	for (int colPx = 0; colPx < widthPx; colPx++)
+	for (uint32_t colPx = 0; colPx < widthPx; colPx++)
 	{
 		bitmap_pixel_rgb_t currPixel = pixelToRGB(rowData[colPx], colorSpace);
 		bitmap_component_t pixelData[4] = { currPixel.c3, currPixel.b, currPixel.g, currPixel.r };
@@ -1219,8 +1222,8 @@ bitmap_error_t bitmapWritePixelsCompression_None(bitmap_t* bitmap, const bitmap_
 	uint32_t heightPx = bitmap->parameters.heightPx;
 
 	//How many bytes are in a row?
-	int bitsPerRow = bitmap->parameters.colorDepth * widthPx;
-	int bytesPerRow = ((bitsPerRow + 31) / 32) * 4;
+	uint32_t bitsPerRow = bitmap->parameters.colorDepth * widthPx;
+	uint32_t bytesPerRow = ((bitsPerRow + 31) / 32) * 4;
 
 	bitmapLog(BITMAP_LOGGING_VERBOSE, "Bits / bytes per row: %u / %u", bitsPerRow, bytesPerRow);
 
@@ -1228,7 +1231,7 @@ bitmap_error_t bitmapWritePixelsCompression_None(bitmap_t* bitmap, const bitmap_
 	bitmap_error_t success;
 
 	//Write row by row:
-	for (int rowPx = 0; rowPx < heightPx; rowPx++)
+	for (uint32_t rowPx = 0; rowPx < heightPx; rowPx++)
 	{
 		//Get the row:
 		const bitmap_pixel_t* rowData = &pixels[(rowPx * widthPx)];

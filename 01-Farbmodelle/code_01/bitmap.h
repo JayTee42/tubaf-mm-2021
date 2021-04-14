@@ -3,6 +3,7 @@
 
 //Includes from the standard library:
 #include <stdint.h>
+#include <stdlib.h>
 
 //Boolean stuff:
 typedef uint8_t bitmap_bool_t;
@@ -136,7 +137,7 @@ typedef int bitmap_error_t;
 	- BITMAP_ERROR_MEMORY               Insufficient memory.
 **********************************************************************************************************************************************************************/
 
-bitmap_error_t bitmapReadPixels(const char* filePath, bitmap_pixel_t** pixels, int* widthPx, int* heightPx, bitmap_color_space_t colorSpace);
+bitmap_error_t bitmapReadPixels(const char* filePath, bitmap_pixel_t** pixels, size_t* widthPx, size_t* heightPx, bitmap_color_space_t colorSpace);
 
 /**********************************************************************************************************************************************************************
 	Write a bitmap file. Use the provided bitmap parameters.
