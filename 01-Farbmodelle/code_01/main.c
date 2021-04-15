@@ -80,7 +80,7 @@ static void manipulate(bitmap_pixel_rgb_t* pixels, uint32_t width, uint32_t heig
 
 			// Distribute the error onto the neighbours.
 			// Note: For x == 0, the expression "x - 1" will underflow and wrap.
-			// This is *not* UB for signed.
+			// This is *not* UB for unsigned.
 			// In consequence, the "(x < width)" guard in "apply_quant_err()" will catch that case.
 			apply_quant_err(pixels, width, height, x + 1, y, qe, 7);
 			apply_quant_err(pixels, width, height, x, y + 1, qe, 5);
