@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <limits.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "bitmap.h"
@@ -26,7 +27,7 @@ static bitmap_pixel_rgb_t select_from_pal(bitmap_pixel_rgb_t pix)
 	int dist = INT_MAX;
 	bitmap_pixel_rgb_t pal;
 
-	for (int i = 0; i < (sizeof(PAL) / sizeof(*PAL)); i++)
+	for (size_t i = 0; i < (sizeof(PAL) / sizeof(*PAL)); i++)
 	{
 		bitmap_pixel_rgb_t new_pal = PAL[i];
 
@@ -51,9 +52,9 @@ static void apply_quant_err_comp(bitmap_component_t* c, int qe, int fac)
 	*c = (new_c < 0) ? 0 : (new_c > 255) ? 255 : new_c;
 }
 
-static void apply_quant_err(bitmap_pixel_rgb_t* pixels, int width, int height, int x, int y, const int* qe, int fac)
+static void apply_quant_err(bitmap_pixel_rgb_t* pixels, uint32_t width, uint32_t height, uint32_t x, uint32_t y, const int* qe, int fac)
 {
-	if ((x >= 0) && (x < width) && (y < height))
+	if ((x < width) && (y < height))
 	{
 		bitmap_pixel_rgb_t* pix = &pixels[(width * y) + x];
 
@@ -64,11 +65,11 @@ static void apply_quant_err(bitmap_pixel_rgb_t* pixels, int width, int height, i
 }
 #endif
 
-static void manipulate(bitmap_pixel_rgb_t* pixels, int width, int height)
+static void manipulate(bitmap_pixel_rgb_t* pixels, uint32_t width, uint32_t height)
 {
-	for (int y = 0; y < height; y++)
+	for (uint32_t y = 0; y < height; y++)
 	{
-		for (int x = 0; x < width; x++)
+		for (uint32_t x = 0; x < width; x++)
 		{
 			// Get a pointer to the pixel and select a palette color for it.
 			bitmap_pixel_rgb_t* pix = &pixels[(width * y) + x];
@@ -78,9 +79,12 @@ static void manipulate(bitmap_pixel_rgb_t* pixels, int width, int height)
 			int qe[] = { pix->r - pal.r, pix->g - pal.g, pix->b - pal.b };
 
 			// Distribute the error onto the neighbours.
+			// Note: For x == 0, the expression "x - 1" will underflow and wrap.
+			// This is *not* UB for signed.
+			// In consequence, the "(x < width)" guard in "apply_quant_err()" will catch that case.
 			apply_quant_err(pixels, width, height, x + 1, y, qe, 7);
-			apply_quant_err(pixels, width, height, x - 1, y + 1, qe, 3);
 			apply_quant_err(pixels, width, height, x, y + 1, qe, 5);
+			apply_quant_err(pixels, width, height, x - 1, y + 1, qe, 3);
 			apply_quant_err(pixels, width, height, x + 1, y + 1, qe, 1);
 #endif
 			// Assign the new pixel value.
@@ -93,7 +97,7 @@ int main(void)
 {
 	// Read the bitmap pixels.
 	bitmap_error_t error;
-	int width, height;
+	uint32_t width, height;
 	bitmap_pixel_rgb_t* pixels;
 
 	error = bitmapReadPixels(

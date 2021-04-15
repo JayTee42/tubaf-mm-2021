@@ -136,7 +136,7 @@ typedef int bitmap_error_t;
 	- BITMAP_ERROR_MEMORY               Insufficient memory.
 **********************************************************************************************************************************************************************/
 
-bitmap_error_t bitmapReadPixels(const char* filePath, bitmap_pixel_t** pixels, int* widthPx, int* heightPx, bitmap_color_space_t colorSpace);
+bitmap_error_t bitmapReadPixels(const char* filePath, bitmap_pixel_t** pixels, uint32_t* widthPx, uint32_t* heightPx, bitmap_color_space_t colorSpace);
 
 /**********************************************************************************************************************************************************************
 	Write a bitmap file. Use the provided bitmap parameters.
