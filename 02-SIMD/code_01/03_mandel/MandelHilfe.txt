@@ -1,0 +1,26 @@
+Diese Intrinsics werden (möglicherweise) benötigt, um die Mandelbrotaufgabe zu lösen.
+
+
+Datentypen:
+_m128 	4 float, xmm[0-7] zugeordnet, 16 Byte aligned
+_m128i 	4 int, xmm[0-7] zugeordnet, 16 Byte aligned (ab SSE2)
+_m128d	2 double, xmm[0-7] zugeordnet, 16 Byte aligned (ab SSE2) 
+…
+
+Funktionen:
+__m128 _mm_set1_ps(float w)	legt w 4mal in xmm[0-7] ab
+__m128 _mm_set_ps(float a, float b, float c, float d) legt a,b,c,d in xmm[0-7] ab
+
+Komponentenweise Operationen
+__m128 _mm_add_ps(_m128 a, _m128 b)
+__m128 _mm_sub_ps(_m128 a, _m128 b)
+__m128 _mm_mul_ps(_m128 a, _m128 b)
+__m128 _mm_div_ps(_m128 a, _m128 b)
+__m128 _mm_sqrt_ps(_m128 a, _m128 b)
+
+__m128 _mm_and_ps(_m128 a, _m128 b) logisches und
+
+__m128 _mm_cmplt_ps(_m128 a, _m128 b) (a < b) ? -1 : 0
+int _mm_movemask_ps(_m128 a) 4 Bit Maske sign(a3)<<3|sign(a2)<<2|sign(a1)<<1|sign(a0)
+
+_m128i _mm_cvtps_epi32(_m128 a) float zu int cast (ab SSE2)

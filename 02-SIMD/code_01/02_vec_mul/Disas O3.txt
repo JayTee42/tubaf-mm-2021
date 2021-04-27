@@ -1,0 +1,35 @@
+# Vectorized C
+100000f60:	0f 10 42 f0 	movups	xmm0, xmmword ptr [rdx - 16]
+100000f64:	0f 10 0a 		movups	xmm1, xmmword ptr [rdx]
+100000f67:	0f 10 56 f0 	movups	xmm2, xmmword ptr [rsi - 16]
+100000f6b:	0f 59 d0 		mulps	xmm2, xmm0
+100000f6e:	0f 10 06 		movups	xmm0, xmmword ptr [rsi]
+100000f71:	0f 59 c1 		mulps	xmm0, xmm1
+100000f74:	0f 11 52 f0 	movups	xmmword ptr [rdx - 16], xmm2
+100000f78:	0f 11 02 		movups	xmmword ptr [rdx], xmm0
+100000f7b:	48 83 c2 20 	add	rdx, 32
+100000f7f:	48 83 c6 20 	add	rsi, 32
+100000f83:	48 83 c7 f8 	add	rdi, -8
+100000f87:	75 d7 			jne	-41 <_c_mult+0xF0>
+
+# SSE intrinsics
+100001170:	0f 28 46 f0 	movaps	xmm0, xmmword ptr [rsi - 16]
+100001174:	0f 28 0e 		movaps	xmm1, xmmword ptr [rsi]
+100001177:	0f 59 47 f0 	mulps	xmm0, xmmword ptr [rdi - 16]
+10000117b:	0f 29 46 f0 	movaps	xmmword ptr [rsi - 16], xmm0
+10000117f:	0f 59 0f 		mulps	xmm1, xmmword ptr [rdi]
+100001182:	0f 29 0e 		movaps	xmmword ptr [rsi], xmm1
+100001185:	48 83 c1 02 	add	rcx, 2
+100001189:	48 83 c6 20 	add	rsi, 32
+10000118d:	48 83 c7 20 	add	rdi, 32
+100001191:	48 39 ca 		cmp	rdx, rcx
+100001194:	75 da 			jne	-38 <_intrinsics_sse_mult+0x50>
+
+# SSE ASM
+my_label21:
+100001095:	48 83 e9 10 	sub	rcx, 16
+100001099:	0f 10 04 0b 	movaps	xmm0, xmmword ptr [rbx + rcx]
+10000109d:	0f 10 0c 08 	movaps	xmm1, xmmword ptr [rax + rcx]
+1000010a1:	0f 59 c1 		mulps	xmm0, xmm1
+1000010a4:	0f 11 04 08 	movaps	xmmword ptr [rax + rcx], xmm0
+1000010a8:	75 eb 			jne	-21 <my_label21>
