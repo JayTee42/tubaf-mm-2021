@@ -3,8 +3,7 @@
 // Checks if specific bit in interger is set
 int isBitSet(unsigned int num, int bit)
 {
-    //TODO:
-    return 0;
+    return num >> bit & 1;
 }
 
 void printFeature(const char* feature, unsigned int num, unsigned int bit)
@@ -17,7 +16,6 @@ void printFeature(const char* feature, unsigned int num, unsigned int bit)
     {
         printf("%s ... not available\n", feature);
     }
-  
 }
 
 int main(void) {
@@ -76,32 +74,33 @@ int main(void) {
     // Print the features:
     printf("CPU supports: \n");
 
-    // RDX 23 = MMX
-
-    // RDX 25 = SSE
-
-    // RDX 26 = SSE2
-
-    // RCX 19 = SSE4.1
-
-    // RCX 20 = SSE4.2
-
-    // RCX 25 = AES
-
-    // RCX 28 = AVX
-
-    // RCX 12 = FMA3
-
+    printFeature("MMX", rdx, 23);
+    printFeature("SSE", rdx, 25);
+    printFeature("SSE2", rdx, 26);
+    printFeature("SSE4.1", rcx, 19);
+    printFeature("SSE4.2", rcx, 20);
+    printFeature("AES", rcx, 25);
+    printFeature("AVX", rcx, 28);
+    printFeature("FMA3", rcx, 12);
 
     // Check if extended features are available (version >= 2):
 
 
     // CPUID Extended Features
     // ====ASM==== Set RAX to 7 and rcx to 0, call 'cpuid', receive outputs (RAX, RBX, RCX, RDX):
+    __asm__ __volatile__ (
+        ".intel_syntax noprefix \n"
+        "mov rax, 7             \n"
+        "mov rcx, 0             \n"
+        "cpuid                  \n"
+        ".att_syntax prefix     \n"
+        :"=a"(rax), "=b"(rbx), "=c"(rcx), "=d"(rdx)
+    );
 
-    // RBX 5 = AVX2
+    printf("CPU (extended) supports: \n");
 
-    // RBX 16 = AVX512-Foundation
+    printFeature("AVX2", rbx, 5);
+    printFeature("AVX512-Foundation", rbx, 16);
 
     return 0;
 }
