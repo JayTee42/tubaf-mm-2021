@@ -65,20 +65,20 @@ int main(void){
     // __asm__ __volatile__("");
 
     // Ex. 3 Input, Output
-    // #include <stdio.h>
-    // int argument = 42;
-    // int result;
+    #include <stdio.h>
+    int argument = 42;
+    int result;
 
-    // __asm__ __volatile__(
-    //      ".intel_syntax noprefix \n"
-    //      "add rbx, 8             \n"
-    //      "mov rax, rbx           \n"
-    //      ".att_syntax prefix     \n"
-    //      : "=a" (result)
-    //      : "b" (argument)
-    //      : "xmm0"
-    // );
-    // printf("Result: %d\n", result);
+    __asm__ __volatile__(
+         ".intel_syntax noprefix \n"
+         "add rbx, 8             \n"
+         "mov rax, rbx           \n"
+         ".att_syntax prefix     \n"
+         : "=a" (result)
+         : "b" (argument)
+         : "xmm0"
+    );
+    printf("Result: %d\n", result);
 
     return 0;
 }
