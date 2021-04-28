@@ -7,6 +7,19 @@ int isBitSet(unsigned int num, int bit)
     return 0;
 }
 
+void printFeature(const char* feature, unsigned int num, unsigned int bit)
+{
+    if (isBitSet(num, bit))
+    {
+        printf("%s ... available\n", feature);
+    }
+    else
+    {
+        printf("%s ... not available\n", feature);
+    }
+  
+}
+
 int main(void) {
 
     /////////////////////////////////////////
@@ -25,7 +38,7 @@ int main(void) {
         "cpuid                  \n"
         ".att_syntax prefix     \n"
         :"=a"(rax), "=b"(rbx), "=c"(rcx), "=d"(rdx)
-    ); 
+    );
 
     // The CPUID Version is placed in RAX, print it:
     unsigned int version = rax;
@@ -39,13 +52,26 @@ int main(void) {
     // Manufacturer String
     // This is stored as ASCII-chars in RBX, RDX and RCX
     // Print all the 12 chars:
+    // char vendor_string[13];
+    // memset(vendor_string, 0, 13);
 
+    // memcpy(vendor_string + 0, &rbx, 4);
+    // memcpy(vendor_string + 4, &rdx, 4);
+    // memcpy(vendor_string + 8, &rcx, 4);
 
-
+    // printf("%s\n", vendor_string);
+    unsigned int manufacturer_i[4] = { rbx, rdx, rcx, 0 };
+    printf("Manufacturer: %s\n", (char*) &manufacturer_i[0]);
 
     // CPUID Features
     // ====ASM==== Set RAX to 1, call 'cpuid', receive outputs (RAX, RBX, RCX, RDX):
-
+    __asm__ __volatile__ (
+        ".intel_syntax noprefix \n"
+        "mov rax, 1             \n"
+        "cpuid                  \n"
+        ".att_syntax prefix     \n"
+        :"=a"(rax), "=b"(rbx), "=c"(rcx), "=d"(rdx)
+    );
 
     // Print the features:
     printf("CPU supports: \n");
@@ -64,14 +90,14 @@ int main(void) {
 
     // RCX 28 = AVX
 
-    // RCX 28 = FMA3
+    // RCX 12 = FMA3
 
 
     // Check if extended features are available (version >= 2):
 
 
     // CPUID Extended Features
-    // ====ASM==== Set RAX to 2 and rcx to 0, call 'cpuid', receive outputs (RAX, RBX, RCX, RDX):
+    // ====ASM==== Set RAX to 7 and rcx to 0, call 'cpuid', receive outputs (RAX, RBX, RCX, RDX):
 
     // RBX 5 = AVX2
 
