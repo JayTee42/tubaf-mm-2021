@@ -17,7 +17,7 @@ struct MandelSpec {
     unsigned int iterations;
 };
 
-void mandel_basic(bitmap_pixel_t *image, const struct MandelSpec *s){
+void mandel_basic(bitmap_pixel_rgb_t *image, const struct MandelSpec *s){
     //x and y range in the complex plane
     float xdiff = s->xlim[1] - s->xlim[0];
     float ydiff = s->ylim[1] - s->ylim[0];
@@ -135,7 +135,7 @@ int main(int argc, char *argv[]){
     bitmap_pixel_t *image = malloc(spec.width * spec.height * sizeof(bitmap_pixel_t));
 
     // TODO: switch with mandel_sse2!
-    mandel_basic(image, &spec);
+    mandel_basic((bitmap_pixel_rgb_t*)image, &spec);
 
     bitmap_parameters_t params;
     memset(&params, 0, sizeof(bitmap_parameters_t));
