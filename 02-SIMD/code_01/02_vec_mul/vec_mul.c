@@ -96,7 +96,7 @@ void mult_asm_sse(float* out, float* in, unsigned int element_count) {
     "sub rcx, 16                \n"
     "movaps xmm0, [rbx + rcx]   \n"
     "movaps xmm1, [rax + rcx]   \n"
-    "mulps xmm0, xmm1           \n"
+    "mulps xmm0, [rax + rcx]    \n"
     "movaps [rax + rcx], xmm0   \n"
     "jnz my_label2              \n"
     ".att_syntax prefix         \n"
@@ -106,6 +106,33 @@ void mult_asm_sse(float* out, float* in, unsigned int element_count) {
   );
 
   printf("ASM with SSE Multiplication: %.6fms\n", (double)(clock() - start) / (CLOCKS_PER_SEC / 1000));
+}
+
+void mult_asm_sse_optimized(float* out, float* in, unsigned int element_count) {
+  clock_t start = clock();
+
+  // Calculate the size of the vector in bytes:
+  size_t byte_length = sizeof(float) * element_count;
+
+  // ====ASM====
+  // 4 floats per loop iteration:
+  __asm__ __volatile__(
+    ".intel_syntax noprefix     \n"
+    "xor rcx, rcx               \n"
+    "my_label3:                 \n"
+    "movaps xmm0, [rbx + rcx]   \n"
+    "mulps xmm0, [rax + rcx]    \n"
+    "movaps [rax + rcx], xmm0   \n"
+    "add rcx, 16                \n"
+    "cmp rcx, rdx               \n"
+    "jne my_label3              \n"
+    ".att_syntax prefix         \n"
+    :
+    :"a"(out), "b"(in), "d"(byte_length)
+    :"xmm0", "xmm1", "rcx"
+  );
+
+  printf("Optimized ASM with SSE Multiplication: %.6fms\n", (double)(clock() - start) / (CLOCKS_PER_SEC / 1000));
 }
 
 int main(int argc, char** argv) {
@@ -157,6 +184,10 @@ int main(int argc, char** argv) {
   vec_reset(vec_out, vec_in, element_count_sse);
   // Call SSE assembler multiplication
   mult_asm_sse(vec_out, vec_in, element_count_sse);  
+
+  vec_reset(vec_out, vec_in, element_count_sse);
+
+  mult_asm_sse_optimized(vec_out, vec_in, element_count_sse);
 
   // Free the vectors:
   free(vec_in);
