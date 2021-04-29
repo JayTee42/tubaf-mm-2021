@@ -6,9 +6,9 @@
 | :------------------ | :------------------------ | :------------------------------------------------------------------------ |
 | 05. - 09. April     | Einführung, Terminplanung | [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/00-Einfuehrung/Formal.pdf) |
 | 12. - 16. April     | Farbräume, Bildverarbeitung| [Vorlesung](https://youtu.be/kBZoBG6i1Vc), [Mitschnitt](https://teach.informatik.tu-freiberg.de/playback/presentation/2.0/playback.html?meetingId=582e5bc54d5449187b47904734197edf2dffad4b-1618401121075), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/01-Farbmodelle/vl01.pdf), [Code (Dithering)](https://github.com/JayTee42/tubaf-mm-2021/tree/main/01-Farbmodelle/code_01), [Bitmap-Bibliothek](https://github.com/JayTee42/bitmap), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/01-Farbmodelle/Hausaufgabe1.md)|
-| 26. - 30. April     | SIMD                       | [Vorlesung](https://www.youtube.com/watch?v=2AjGdW9XGAQ), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/02-SIMD/vl02.pdf) |
+| 26. - 30. April     | SIMD                       | [Vorlesung](https://www.youtube.com/watch?v=2AjGdW9XGAQ), [Mitschnitt](https://teach.informatik.tu-freiberg.de/playback/presentation/2.0/playback.html?meetingId=582e5bc54d5449187b47904734197edf2dffad4b-1619611035082), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/02-SIMD/vl02.pdf), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/02-SIMD/Hausaufgabe2.md) |
 
-> Die nächte Veranstaltung findet am 28.04.2021 ab 14 Uhr statt (Programmierübung zu SIMD-Instruktionen)
+> Die nächte Veranstaltung findet am 12.05.2021 ab 14 Uhr statt (Programmierübung zu Kompression)
 
 ## Ablauf
 
