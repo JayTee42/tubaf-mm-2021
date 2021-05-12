@@ -10,7 +10,7 @@
 | 10. - 14. Mai     | Kompression                       | [Vorlesung](https://www.youtube.com/watch?v=dmzxin8Z1Bs), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/03-Kompression/vl03.pdf), [Samples](https://github.com/JayTee42/tubaf-mm-2021/tree/main/03-Kompression/samples), [State Machine](https://raw.githubusercontent.com/JayTee42/tubaf-mm-2021/main/03-Kompression/state_machine.png), [Code (Decompress)](https://github.com/JayTee42/tubaf-mm-2021/tree/main/03-Kompression/code_01), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/03-Kompression/Hausaufgabe3.md)|
 
 
-> Die nächte Veranstaltung findet am 12.05.2021 ab 14 Uhr statt (Programmierübung zu Kompression)
+> Die nächte Veranstaltung findet am 26.05.2021 ab 14 Uhr statt (Programmierübung zu JPEG)
 
 ## Ablauf
 
