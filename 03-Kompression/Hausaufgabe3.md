@@ -1,4 +1,4 @@
-### MMSS2020
+### MMSS2021
 # 3. Hausaufgabe - Kompression
 
 ### Aufgabe
@@ -51,7 +51,7 @@ Erweitern Sie Ihr Programm um eine Fortschrittsanzeige (in Prozent) für die Kom
 
 ### Abgabe
 
-Die Hausaufgabe muss bis zum 25.05.2020 23:59 Uhr per Mail an [treumer@tu-freiberg.de]() gesendet werden, wenn sie gewertet werden soll. In den Anhang der Mail kommt ihre .c/.h Datei. Wenn Sie mehrere Quellcode-Dateien senden wollen, packen Sie diese bitte in ein zip-Archiv. Ein Makefile ist gern gesehen ;) ...
+Die Hausaufgabe muss bis zum 25.05.2021 23:59 Uhr per Mail an [treumer@tu-freiberg.de]() gesendet werden, wenn sie gewertet werden soll. In den Anhang der Mail kommt ihre .c/.h Datei. Wenn Sie mehrere Quellcode-Dateien senden wollen, packen Sie diese bitte in ein zip-Archiv. Ein Makefile ist gern gesehen ;) ...
 
 Als Betreff ist folgendes anzugeben:
 
