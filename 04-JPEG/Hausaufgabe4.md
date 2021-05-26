@@ -6,6 +6,8 @@ Stellen Sie die Terminalanwendung aus der Live-Veranstaltung zur Kompression ein
 
 Implementieren Sie des Weiteren die Dekompression. Zur Auswahl zwischen Kompression und Dekompression dienen die Kommandozeilenparameter `-c` bzw. `-d` (siehe [main.c](code_01/main.c)).
 
+Außerdem soll über den `-q`-Parameter ein ganzzahliger Prozentwert zwischen 1 und 100 angegeben werden können (Qualitätsparameter α aus der Vorlesung), der bei der Kompression und Dekompression berücksichtigt wird.
+
 Die Hausaufgabe ist in Gruppen (idR. 3 Personen) zu bearbeiten. Die Hausaufgaben-Gruppen sind zugleich die Projektgruppen für die Prüfungsleistung.
 
 Legen Sie Wert auf eine gute Dokumentation Ihres Codes (Kommentare), saubere Formatierung und einheitlichen Stil.
