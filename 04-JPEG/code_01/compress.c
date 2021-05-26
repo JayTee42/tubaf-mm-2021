@@ -35,15 +35,15 @@ static bitmap_pixel_hsv_t* create_grayscale_bitmap(const char* input_path, const
 	*blocks_x = width_px / 8;
 	*blocks_y = height_px / 8;
 
-	// Convert to grayscale:
-	for (uint32_t i = 0; i < (width_px * height_px); i++)
-	{
-		pixels[i].s = 0;
-	}
-
 	// Dump the bitmap if requested:
 	if (output_path)
 	{
+		// Convert to grayscale:
+		for (uint32_t i = 0; i < (width_px * height_px); i++)
+		{
+			pixels[i].s = 0;
+		}
+
 		bitmap_parameters_t params =
 		{
 			.bottomUp = BITMAP_BOOL_TRUE,
@@ -115,6 +115,57 @@ int compress(const char* file_path, const uint32_t* quant_matrix, const char* gr
 	if (!pixels)
 	{
 		return -1;
+	}
+
+	// Open the output file (.dct):
+	FILE* file = fopen(output_path, "wb");
+
+	if (!file)
+	{
+		printf("Failed to create output file.\n");
+		free(pixels);
+
+		return -1;
+	}
+
+	// Write the number of blocks at the start:
+	// FIXME: Respect endianness!
+	if (fwrite(&blocks_x, sizeof(blocks_x), 1, file) != 1)
+	{
+		printf("Failed to write the number of blocks in x direction.\n");
+
+		free(pixels);
+		fclose(file);
+
+		return -1;
+	}
+
+	if (fwrite(&blocks_y, sizeof(blocks_y), 1, file) != 1)
+	{
+		printf("Failed to write the number of blocks in y direction.\n");
+
+		free(pixels);
+		fclose(file);
+
+		return -1;
+	}
+
+	// Walk all the blocks:
+	for (uint32_t index_y = 0; index_y < blocks_y; index_y++)
+	{
+		for (uint32_t index_x = 0; index_x < blocks_x; index_x++)
+		{
+			float input_block[64];
+			float dct_block[64];
+
+			// Read the next block:
+			read_block(pixels, index_x, index_y, blocks_x, blocks_y, input_block);
+
+			// Execute the actual DCT:
+			perform_dct(input_block, dct_block);
+
+			// TODO ...
+		}
 	}
 
 	// TODO
