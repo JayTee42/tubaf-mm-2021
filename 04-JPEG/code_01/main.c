@@ -125,10 +125,15 @@ int main(int argc, char** argv)
 
 	if (compression_mode)
 	{
+		// file_path1: Input path to bitmap
+		// file_path2: Output path to grayscale bitmap
+		// file_path3: Output path to compressed blob
 		return compress(file_path1, quant_matrix, file_path2, file_path3);
 	}
 	else
 	{
+		// file_path1: Input path to compressed blob
+		// file_path2: Output path to (lossy-compressed) grayscale bitmap
 		return decompress(file_path1, quant_matrix, file_path2);
 	}
 }
