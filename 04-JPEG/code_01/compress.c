@@ -88,10 +88,31 @@ static void read_block(const bitmap_pixel_hsv_t* pixels, uint32_t index_x, uint3
 	}
 }
 
+static float dct_sum(const float* input_block, uint8_t p, uint8_t q)
+{
+	float sum = 0;
+
+	for (uint8_t m = 0; m < 8; m++)
+	{
+		for (uint8_t n = 0; n < 8; n++)
+		{
+			sum += input_block[(8 * m) + n] * cosf((M_PI * (m + 0.5f) * p) / 8.0f) * cosf((M_PI * (n + 0.5f) * q) / 8.0f);
+		}
+	}
+
+	return sum;
+}
+
 // Perform the DCT on the given block of input data.
 static void perform_dct(const float* input_block, float* output_block)
 {
-	// TODO
+	for (uint8_t p = 0; p < 8; p++)
+	{
+		for (uint8_t q = 0; q < 8; q++)
+		{
+			output_block[(8 * p) + q] = alpha(p) * alpha(q) * dct_sum(input_block, p, q);
+		}
+	}
 }
 
 // Divide by the components of the quantization matrix and round.
@@ -164,6 +185,20 @@ int compress(const char* file_path, const uint32_t* quant_matrix, const char* gr
 			// Execute the actual DCT:
 			perform_dct(input_block, dct_block);
 
+			// DEBUG: Print first block!
+			if (index_x == 0 && index_y == 0)
+			{
+				for (size_t i = 0; i < 64; i++)
+				{
+					printf("%f, ", dct_block[i]);
+
+					if (i % 8 == 7)
+					{
+						printf("\n");
+					}
+				}
+			}
+
 			// TODO ...
 		}
 	}
@@ -172,6 +207,9 @@ int compress(const char* file_path, const uint32_t* quant_matrix, const char* gr
 
 	// Free the pixels:
 	free(pixels);
+
+	// Close the output file:
+	fclose(file);
 
 	return 0;
 }

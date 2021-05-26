@@ -25,3 +25,8 @@ uint32_t zig_zag_index_matrix[64] =
 	21, 34, 37, 47, 50, 56, 59, 61,
 	35, 36, 48, 49, 57, 58, 62, 63
 };
+
+float alpha(uint8_t pq)
+{
+	return (pq == 0) ? (1 / (2 * sqrtf(2.0f))) : 0.5;
+}
