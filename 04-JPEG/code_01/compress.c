@@ -106,7 +106,7 @@ static void zig_zag(int8_t* input_block, int8_t* output_block)
 	// TODO
 }
 
-int compress(const char* file_path, const uint32_t* quant_matrix, const char* grayscale_path, const char* outputPath)
+int compress(const char* file_path, const uint32_t* quant_matrix, const char* grayscale_path, const char* output_path)
 {
 	// Load the bitmap in grayscale:
 	uint32_t blocks_x, blocks_y;
