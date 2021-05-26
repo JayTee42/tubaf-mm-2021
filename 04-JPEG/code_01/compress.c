@@ -118,13 +118,19 @@ static void perform_dct(const float* input_block, float* output_block)
 // Divide by the components of the quantization matrix and round.
 static void quantize(float* input_block, const uint32_t* quant_matrix, int8_t* output_block)
 {
-	// TODO
+	for (size_t i = 0; i < 64; i++)
+	{
+		output_block[i] = (int8_t)roundf(input_block[i] / quant_matrix[i]);
+	}
 }
 
 // Perform zig-zag encoding.
 static void zig_zag(int8_t* input_block, int8_t* output_block)
 {
-	// TODO
+	for (size_t i = 0; i < 64; i++)
+	{
+		output_block[zig_zag_index_matrix[i]] = input_block[i];
+	}
 }
 
 int compress(const char* file_path, const uint32_t* quant_matrix, const char* grayscale_path, const char* output_path)
@@ -178,6 +184,8 @@ int compress(const char* file_path, const uint32_t* quant_matrix, const char* gr
 		{
 			float input_block[64];
 			float dct_block[64];
+			int8_t quantized_block[64];
+			int8_t zig_zagged_block[64];
 
 			// Read the next block:
 			read_block(pixels, index_x, index_y, blocks_x, blocks_y, input_block);
@@ -185,25 +193,24 @@ int compress(const char* file_path, const uint32_t* quant_matrix, const char* gr
 			// Execute the actual DCT:
 			perform_dct(input_block, dct_block);
 
-			// DEBUG: Print first block!
-			if (index_x == 0 && index_y == 0)
+			// Quantize:
+			quantize(dct_block, quant_matrix, quantized_block);
+
+			// ZigZag:
+			zig_zag(quantized_block, zig_zagged_block);
+
+			// Write the zig-zagged block into the output file (.dct):
+			if (fwrite(zig_zagged_block, sizeof(zig_zagged_block), 1, file) != 1)
 			{
-				for (size_t i = 0; i < 64; i++)
-				{
-					printf("%f, ", dct_block[i]);
+				printf("Failed to write block.\n");
 
-					if (i % 8 == 7)
-					{
-						printf("\n");
-					}
-				}
+				free(pixels);
+				fclose(file);
+
+				return -1;
 			}
-
-			// TODO ...
 		}
 	}
-
-	// TODO
 
 	// Free the pixels:
 	free(pixels);
