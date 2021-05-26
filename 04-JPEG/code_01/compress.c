@@ -10,8 +10,63 @@
 // Output path can be NULL to suppress the dumping of the grayscale bitmap.
 static bitmap_pixel_hsv_t* create_grayscale_bitmap(const char* input_path, const char* output_path, uint32_t* blocks_x, uint32_t* blocks_y)
 {
-	// TODO
-	return NULL;
+	// Read the input bitmap:
+	bitmap_pixel_hsv_t* pixels;
+	uint32_t width_px, height_px;
+
+	bitmap_error_t error = bitmapReadPixels(input_path, (bitmap_pixel_t**)&pixels, &width_px, &height_px, BITMAP_COLOR_SPACE_HSV);
+
+	if (error != BITMAP_ERROR_SUCCESS)
+	{
+		printf("Failed to read bitmap, does it exist?\n");
+		return NULL;
+	}
+
+	// Make sure the bitmap has a multiple of 8 pixels in both dimensions:
+	if ((width_px % 8) || (height_px % 8))
+	{
+		printf("Width and height must be a multiple of 8 pixels.\n");
+		free(pixels);
+
+		return NULL;
+	}
+
+	// Assign the block size:
+	*blocks_x = width_px / 8;
+	*blocks_y = height_px / 8;
+
+	// Convert to grayscale:
+	for (uint32_t i = 0; i < (width_px * height_px); i++)
+	{
+		pixels[i].s = 0;
+	}
+
+	// Dump the bitmap if requested:
+	if (output_path)
+	{
+		bitmap_parameters_t params =
+		{
+			.bottomUp = BITMAP_BOOL_TRUE,
+			.widthPx = width_px,
+			.heightPx = height_px,
+			.colorDepth = BITMAP_COLOR_DEPTH_24,
+			.compression = BITMAP_COMPRESSION_NONE,
+			.dibHeaderFormat = BITMAP_DIB_HEADER_INFO,
+			.colorSpace = BITMAP_COLOR_SPACE_HSV,
+		};
+
+		error = bitmapWritePixels(output_path, BITMAP_BOOL_TRUE, &params, (bitmap_pixel_t*)pixels);
+
+		if (error != BITMAP_ERROR_SUCCESS)
+		{
+			printf("Failed to write grayscale bitmap.\n");
+			free(pixels);
+
+			return NULL;
+		}
+	}
+
+	return pixels;
 }
 
 // Copy the block at (`index_x`, `index_y`) from the given pixel buffer into `block`.
@@ -53,6 +108,19 @@ static void zig_zag(int8_t* input_block, int8_t* output_block)
 
 int compress(const char* file_path, const uint32_t* quant_matrix, const char* grayscale_path, const char* outputPath)
 {
+	// Load the bitmap in grayscale:
+	uint32_t blocks_x, blocks_y;
+	bitmap_pixel_hsv_t* pixels = create_grayscale_bitmap(file_path, grayscale_path, &blocks_x, &blocks_y);
+
+	if (!pixels)
+	{
+		return -1;
+	}
+
 	// TODO
-	return -1;
+
+	// Free the pixels:
+	free(pixels);
+
+	return 0;
 }
