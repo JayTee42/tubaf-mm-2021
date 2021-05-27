@@ -17,4 +17,7 @@ extern uint32_t zig_zag_index_matrix[64];
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
+// Alpha coefficients:
+float alpha(uint8_t pq);
+
 #endif

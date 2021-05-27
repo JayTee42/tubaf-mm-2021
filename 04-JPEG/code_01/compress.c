@@ -88,22 +88,49 @@ static void read_block(const bitmap_pixel_hsv_t* pixels, uint32_t index_x, uint3
 	}
 }
 
+static float dct_sum(const float* input_block, uint8_t p, uint8_t q)
+{
+	float sum = 0;
+
+	for (uint8_t m = 0; m < 8; m++)
+	{
+		for (uint8_t n = 0; n < 8; n++)
+		{
+			sum += input_block[(8 * m) + n] * cosf((M_PI * (m + 0.5f) * p) / 8.0f) * cosf((M_PI * (n + 0.5f) * q) / 8.0f);
+		}
+	}
+
+	return sum;
+}
+
 // Perform the DCT on the given block of input data.
 static void perform_dct(const float* input_block, float* output_block)
 {
-	// TODO
+	for (uint8_t p = 0; p < 8; p++)
+	{
+		for (uint8_t q = 0; q < 8; q++)
+		{
+			output_block[(8 * p) + q] = alpha(p) * alpha(q) * dct_sum(input_block, p, q);
+		}
+	}
 }
 
 // Divide by the components of the quantization matrix and round.
 static void quantize(float* input_block, const uint32_t* quant_matrix, int8_t* output_block)
 {
-	// TODO
+	for (size_t i = 0; i < 64; i++)
+	{
+		output_block[i] = (int8_t)roundf(input_block[i] / quant_matrix[i]);
+	}
 }
 
 // Perform zig-zag encoding.
 static void zig_zag(int8_t* input_block, int8_t* output_block)
 {
-	// TODO
+	for (size_t i = 0; i < 64; i++)
+	{
+		output_block[zig_zag_index_matrix[i]] = input_block[i];
+	}
 }
 
 int compress(const char* file_path, const uint32_t* quant_matrix, const char* grayscale_path, const char* output_path)
@@ -157,6 +184,8 @@ int compress(const char* file_path, const uint32_t* quant_matrix, const char* gr
 		{
 			float input_block[64];
 			float dct_block[64];
+			int8_t quantized_block[64];
+			int8_t zig_zagged_block[64];
 
 			// Read the next block:
 			read_block(pixels, index_x, index_y, blocks_x, blocks_y, input_block);
@@ -164,14 +193,30 @@ int compress(const char* file_path, const uint32_t* quant_matrix, const char* gr
 			// Execute the actual DCT:
 			perform_dct(input_block, dct_block);
 
-			// TODO ...
+			// Quantize:
+			quantize(dct_block, quant_matrix, quantized_block);
+
+			// ZigZag:
+			zig_zag(quantized_block, zig_zagged_block);
+
+			// Write the zig-zagged block into the output file (.dct):
+			if (fwrite(zig_zagged_block, sizeof(zig_zagged_block), 1, file) != 1)
+			{
+				printf("Failed to write block.\n");
+
+				free(pixels);
+				fclose(file);
+
+				return -1;
+			}
 		}
 	}
 
-	// TODO
-
 	// Free the pixels:
 	free(pixels);
+
+	// Close the output file:
+	fclose(file);
 
 	return 0;
 }
