@@ -120,7 +120,7 @@ static void quantize(float* input_block, const uint32_t* quant_matrix, int8_t* o
 {
 	for (size_t i = 0; i < 64; i++)
 	{
-		output_block[i] = (int8_t)roundf(input_block[i] / quant_matrix[i]);
+		output_block[i] = (int8_t)MIN(127.0f, MAX(-128.0f, roundf(input_block[i] / quant_matrix[i])));
 	}
 }
 
