@@ -76,12 +76,32 @@ static void init_vertex_data(user_data_t* user_data)
 
 void init_gl(GLFWwindow* window)
 {
-	// TODO
+	user_data_t* user_data = glfwGetWindowUserPointer(window);
+
+	// Init our shader program:
+	init_shader_program(user_data);
+
+	// Init our vertex data:
+	init_vertex_data(user_data);
+
+	// Obtain the internal size of the framebuffer
+	int fb_width, fb_height;
+	glfwGetFramebufferSize(window, &fb_width, &fb_height);
+
+	// Align the viewport according to the framebuffer:
+	glViewport(0,0,fb_width, fb_height);
+	gl_check_error("glVieport");
+
+	// Specify the clear color:
+	glClearColor(0.1, 0.1, 0.4, 1);
+	gl_check_error("glClearColor");
 }
 
 void draw_gl(GLFWwindow* window)
 {
-	// TODO
+	// Clear the color buffer -> background color:
+	glClear(GL_COLOR_BUFFER_BIT);
+	gl_check_error("glClear");
 }
 
 void teardown_gl(GLFWwindow* window)
