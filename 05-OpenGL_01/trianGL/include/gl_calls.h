@@ -10,7 +10,9 @@
 // TODO
 typedef struct
 {
-
+    // Dimensions of the window:
+    int window_width;
+    int window_height;
 } user_data_t;
 
 typedef struct
