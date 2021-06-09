@@ -60,13 +60,61 @@ static char* string_from_file(const char* path)
 
 static GLuint compile_shader(GLenum type, const char* shader_path, const char* shader_tag)
 {
-	// TODO
-	return -1;
+	// Create an empty shader:
+	GLuint shader = glCreateShader(type);
+	gl_check_error("glCreateShader");
+
+	// Read the specific source:
+	char* shader_source = string_from_file(shader_path);
+
+	glShaderSource(shader, 1, (const char**)&shader_source, NULL);
+	gl_check_error("glShaderSource");
+
+	free(shader_source);
+
+	// Compile the shader:
+	glCompileShader(shader);
+	gl_check_error("glCompileShader");
+
+	// Check the compile status:
+	GLint success;
+
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+	gl_check_error("glGetShaderiv");
+
+	if (success)
+	{
+		return shader;
+	}
+	
+	// Extract the length of the error message (incl. '\0')
+	GLint info_length = 0;
+
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &info_length);
+
+	if (info_length > 1)
+	{
+		// Extract the error message:
+		char* info = malloc(info_length);
+		check_error(info != NULL, "Failed to alloc memory for error message :(");
+
+		glGetShaderInfoLog(shader, info_length, NULL, info);
+		gl_check_error("glGetShaderInfoLog");
+
+		fprintf(stderr, "Error compiling shader (%s): %s", shader_tag, info);
+		free(info);
+	}
+	else
+	{
+		fprintf(stderr, "No info log from the shader compiler :(");
+	}
+	
+	exit(EXIT_FAILURE);
 }
 
 static void init_shader_program(user_data_t* user_data)
 {
-	// TODO
+
 }
 
 static void init_vertex_data(user_data_t* user_data)

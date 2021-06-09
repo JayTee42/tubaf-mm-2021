@@ -23,6 +23,7 @@ void framebuffer_size_callback(GLFWwindow* window, int fb_width, int fb_height)
 {
 	glViewport(0, 0, fb_width, fb_height);
 	gl_check_error("glViewport");
+	printf("FrameBufferSize: %dx%d\n", fb_width, fb_height);
 }
 
 void window_size_callback(GLFWwindow* window, int width, int height)
@@ -31,6 +32,8 @@ void window_size_callback(GLFWwindow* window, int width, int height)
 
 	user_data->window_width = width;
 	user_data->window_height = height;
+
+	printf("WindowSize: %dx%d\n", width, height);
 }
 
 int main(void)
