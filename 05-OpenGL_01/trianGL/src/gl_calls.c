@@ -198,7 +198,57 @@ static void init_shader_program(user_data_t* user_data)
 
 static void init_vertex_data(user_data_t* user_data)
 {
-	// TODO
+	// Triangle data:
+	vertex_data_t vertex_data[] = 
+	{
+		{.position = {-1, -1, 0}, .color = { 0xFF, 0x00, 0x00 } }, // left bottom
+		{.position = { 1, -1, 0}, .color = { 0x00, 0xFF, 0x00 } }, // right bottom
+		{.position = { 0,  1, 0}, .color = { 0x00, 0x00, 0xFF } }, // left bottom
+	};
+
+	// Create a Vertex Array Object VAO:
+	GLuint vao;
+
+	glGenVertexArrays(1, &vao);
+	gl_check_error("glGenVertexArrays");
+
+	glBindVertexArray(vao);
+	gl_check_error("glBindVertexArray");
+
+	// Store the VAO inside our user data:
+	user_data->vao = vao;
+
+	// Generate and bind the Vertex Buffer Object:
+	GLuint vbo;
+
+	glGenBuffers(1, &vbo);
+	gl_check_error("glGenBuffers");
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	gl_check_error("glBindBuffer");
+
+	// Upload the vertex data to the GPU:
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(vertex_data_t), (const GLvoid*)vertex_data, GL_STATIC_DRAW);
+	gl_check_error("glBufferData");
+
+	// Position attribute:
+	// 
+	glVertexAttribPointer(ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_data_t), (GLvoid*)offsetof(vertex_data_t, position));
+	gl_check_error("glVertexAttribPointer(ATTRIB_POSITION)");
+
+	// Color attribute:
+	glVertexAttribPointer(ATTRIB_COLOR, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(vertex_data_t), (GLvoid*)offsetof(vertex_data_t, color));
+	gl_check_error("glVertexAttribPointer(ATTRIB_COLOR)");
+
+	// Enable the attributes:
+	glEnableVertexAttribArray(ATTRIB_POSITION);
+	gl_check_error("glEnableVertexAttribArray(ATTRIB_POSITION)");
+
+	glEnableVertexAttribArray(ATTRIB_COLOR);
+	gl_check_error("glEnableVertexAttribArray(ATTRIB_COLOR)");
+
+	// Store vbo handle inside our user data:
+	user_data->vbo = vbo;
 }
 
 void init_gl(GLFWwindow* window)

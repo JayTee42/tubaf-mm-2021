@@ -7,6 +7,9 @@
 // Include the GLFW library (should be the same for all OS):
 #include <GLFW/glfw3.h>
 
+#define ATTRIB_POSITION 0
+#define ATTRIB_COLOR 1
+
 // TODO
 typedef struct
 {
@@ -16,11 +19,18 @@ typedef struct
 
     // Shader program handle:
     GLuint shader_program;
+
+    // VAO:
+    GLuint vao;
+
+    // VBO:
+    GLuint vbo;
 } user_data_t;
 
 typedef struct
 {
-
+    GLfloat position[3];
+    GLubyte color[3];
 } vertex_data_t;
 
 // Generic error checks:
