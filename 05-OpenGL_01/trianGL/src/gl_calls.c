@@ -232,7 +232,6 @@ static void init_vertex_data(user_data_t* user_data)
 	gl_check_error("glBufferData");
 
 	// Position attribute:
-	// 
 	glVertexAttribPointer(ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_data_t), (GLvoid*)offsetof(vertex_data_t, position));
 	gl_check_error("glVertexAttribPointer(ATTRIB_POSITION)");
 
@@ -279,9 +278,24 @@ void draw_gl(GLFWwindow* window)
 	// Clear the color buffer -> background color:
 	glClear(GL_COLOR_BUFFER_BIT);
 	gl_check_error("glClear");
+
+	// Finally drawing some stuff!
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	gl_check_error("glDrawArrays");
 }
 
 void teardown_gl(GLFWwindow* window)
 {
-	// TODO
+	printf("Tearing down...\n");
+
+	user_data_t* user_data = glfwGetWindowUserPointer(window);
+
+	glDeleteProgram(user_data->shader_program);
+	gl_check_error("glDeleteProgram");
+
+	glDeleteVertexArrays(1, &user_data->vao);
+	gl_check_error("glDeleteVertexArrays");
+
+	glDeleteBuffers(1, &user_data->vbo);
+	gl_check_error("glDeleteBuffers");
 }
