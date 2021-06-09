@@ -114,7 +114,86 @@ static GLuint compile_shader(GLenum type, const char* shader_path, const char* s
 
 static void init_shader_program(user_data_t* user_data)
 {
+	// Create the vertex shader:
+	GLuint vertex_shader = compile_shader(GL_VERTEX_SHADER,"shader/vertex.glsl", "Vertex Shader");
 
+	// Create the fragment shader:
+	GLuint fragment_shader = compile_shader(GL_FRAGMENT_SHADER, "shader/fragment.glsl", "Fragment Shader");
+
+	// We can now release the shader compiler:
+	glReleaseShaderCompiler();
+	gl_check_error("glReleaseShaderCompiler");
+
+	// Create an empty shader object:
+	GLuint shader_program = glCreateProgram();
+	gl_check_error("glCreateProgram");
+
+	// Attach both shaders to program:
+	glAttachShader(shader_program, vertex_shader);
+	gl_check_error("glAttachShader(vertex)");
+	
+	glAttachShader(shader_program, fragment_shader);
+	gl_check_error("glAttachShader(fragment)");
+
+	// Link shader program:
+	glLinkProgram(shader_program);
+	gl_check_error("glLinkProgram");
+
+	// Detach both shaders to program:
+	glDetachShader(shader_program, vertex_shader);
+	gl_check_error("glDetachShader(vertex)");
+	
+	glDetachShader(shader_program, fragment_shader);
+	gl_check_error("glDetachShader(fragment)");
+
+	// Delete the shaders:
+	glDeleteShader(vertex_shader);
+	gl_check_error("glDeleteShader(vertex_shader)");
+
+	glDeleteShader(fragment_shader);
+	gl_check_error("glDeleteShader(fragment_shader)");
+
+		// Check the compile status:
+	GLint success;
+
+	glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
+	gl_check_error("glGetProgramiv");
+
+	if (success)
+	{
+		// Use the program from now on:
+		glUseProgram(shader_program);
+		gl_check_error("glUseProgram");
+
+		// Store the program handle inside the user data:
+		user_data->shader_program = shader_program;
+
+		return;
+	}
+	
+	// Extract the length of the error message (incl. '\0')
+	GLint info_length = 0;
+
+	glGetProgramiv(shader_program, GL_INFO_LOG_LENGTH, &info_length);
+
+	if (info_length > 1)
+	{
+		// Extract the error message:
+		char* info = malloc(info_length);
+		check_error(info != NULL, "Failed to alloc memory for error message :(");
+
+		glGetProgramInfoLog(shader_program, info_length, NULL, info);
+		gl_check_error("glGetProgramInfoLog");
+
+		fprintf(stderr, "Error linking shader: %s", info);
+		free(info);
+	}
+	else
+	{
+		fprintf(stderr, "No info log from the shader linker :(");
+	}
+	
+	exit(EXIT_FAILURE);
 }
 
 static void init_vertex_data(user_data_t* user_data)
