@@ -11,7 +11,7 @@
 | 24. - 28. Mai     | JPEG                       | [Vorlesung](https://www.youtube.com/watch?v=dsqo55CKsSA), [Mitschnitt](https://teach.informatik.tu-freiberg.de/playback/presentation/2.0/playback.html?meetingId=582e5bc54d5449187b47904734197edf2dffad4b-1622030291800), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/04-JPEG/vl04.pdf), [Guideline](https://github.com/JayTee42/tubaf-mm-2021/blob/main/04-JPEG/guideline.md), [Samples](https://github.com/JayTee42/tubaf-mm-2021/tree/main/04-JPEG/samples), [Code (Compress)](https://github.com/JayTee42/tubaf-mm-2021/tree/main/04-JPEG/code_01), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/04-JPEG/Hausaufgabe4.md)|
 | 07. - 11. Juni     | OpenGL I                     | [Vorlesung](https://www.youtube.com/watch?v=N64QlJzXqfM), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/vl05.pdf), Mitschnitt, [Agenda](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/Agenda.pdf), [GLFW](https://www.glfw.org/), [GLFW (Ubuntu-VM)](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/ubuntu_vm.md), [GLFW (Cygwin)](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/cygwin.md), [Glad](https://glad.dav1d.de/), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/Hausaufgabe5.md)|
 
-> Die nächte Veranstaltung findet am 09.06.2021 ab 14 Uhr statt (erste Programmierübung zu OpenGL)
+> Die nächte Veranstaltung findet am 23.06.2021 ab 14 Uhr statt (erste Programmierübung zu OpenGL II)
 
 ## Ablauf
 
