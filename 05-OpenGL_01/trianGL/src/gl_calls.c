@@ -204,7 +204,6 @@ static void init_vertex_data(user_data_t* user_data)
 		{.position = {-1, -1, 0}, .color = { 0xFF, 0x00, 0x00 } }, // left bottom
 		{.position = { 1, -1, 0}, .color = { 0x00, 0xFF, 0x00 } }, // right bottom
 		{.position = { 0,  1, 0}, .color = { 0x00, 0x00, 0xFF } }, // left bottom
-		{.position = { 1,  1, 0}, .color = { 0xFF, 0x00, 0xFF } }, // left bottom
 	};
 
 	// Create a Vertex Array Object VAO:
@@ -229,7 +228,7 @@ static void init_vertex_data(user_data_t* user_data)
 	gl_check_error("glBindBuffer");
 
 	// Upload the vertex data to the GPU:
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(vertex_data_t), (const GLvoid*)vertex_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(vertex_data_t), (const GLvoid*)vertex_data, GL_STATIC_DRAW);
 	gl_check_error("glBufferData");
 
 	// Position attribute:
@@ -281,7 +280,7 @@ void draw_gl(GLFWwindow* window)
 	gl_check_error("glClear");
 
 	// Finally drawing some stuff!
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 	gl_check_error("glDrawArrays");
 }
 
