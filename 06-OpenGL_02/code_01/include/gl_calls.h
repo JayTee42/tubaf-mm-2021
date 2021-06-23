@@ -16,6 +16,9 @@ typedef struct
     // The current shader program:
     GLuint shader_program;
 
+    // The uniform locations:
+    GLint angle_y_loc;
+
     // The vertex array object (blackbox ...):
     GLuint vao;
 
@@ -24,6 +27,10 @@ typedef struct
 
     // The number of vertices to render:
     int vertex_data_count;
+
+    // The model:
+    double last_frame_time;
+    GLfloat angle_y;
 } user_data_t;
 
 typedef struct

@@ -7,6 +7,7 @@
 #include "obj.h"
 
 #define MODEL_PATH "models/teapot"
+#define Y_ANGULAR_VELOCITY 2
 
 static char* read_shader_source_from_file(const char* path)
 {
@@ -188,7 +189,10 @@ static void init_shader_program(user_data_t* user_data)
 
 static void init_uniforms(user_data_t* user_data)
 {
-    // TODO
+    user_data->angle_y_loc = glGetUniformLocation(user_data->shader_program, "angle_y");
+
+    gl_check_error("glGetUniformLocation [angle_y]");
+    check_error(user_data->angle_y_loc >= 0, "Failed to obtain uniform location for angle_y.");
 }
 
 static void init_vertex_data(user_data_t* user_data)
@@ -261,6 +265,7 @@ static void init_vertex_data(user_data_t* user_data)
     size_t normal_index = 0;
     size_t vertex_data_index = 0;
 
+    // TODO: Clean index validation!
     while ((entry_type = obj_get_next_entry(obj, &entry)) != OBJ_ENTRY_TYPE_END)
     {
         switch (entry_type)
@@ -323,7 +328,8 @@ static void init_vertex_data(user_data_t* user_data)
 
 static void init_model(user_data_t* user_data)
 {
-    // TODO
+    user_data->last_frame_time = glfwGetTime();
+    user_data->angle_y = 0;
 }
 
 void check_error(int condition, const char* error_text)
@@ -377,7 +383,20 @@ void init_gl(GLFWwindow* window)
 
 void update_gl(GLFWwindow* window)
 {
-    // TODO
+    user_data_t* user_data = glfwGetWindowUserPointer(window);
+
+    // Calculate the frame delta time and update the timestamp:
+    double frame_time = glfwGetTime();
+    double delta_time = frame_time - user_data->last_frame_time;
+
+    user_data->last_frame_time = frame_time;
+
+    // TODO: Update the angle.
+    user_data->angle_y = fmod(user_data->angle_y + (Y_ANGULAR_VELOCITY * delta_time), 2 * M_PI);
+
+    // Push the uniforms to the GPU:
+    glUniform1f(user_data->angle_y_loc, user_data->angle_y);
+    gl_check_error("glUniform1f [angle_y]");
 }
 
 void draw_gl(GLFWwindow* window)
