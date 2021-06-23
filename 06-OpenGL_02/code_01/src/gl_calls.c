@@ -225,7 +225,7 @@ static void init_vertex_data(user_data_t* user_data)
     int face_count = 0;
     int mtl_lib_count = 0;
 
-    // TODO: Counting!
+    obj_count_entries(obj, &vertex_count, &tex_coords_count, &normal_count, &face_count, &mtl_lib_count);
 
     printf("Parsed obj file \"%s\":\n", MODEL_PATH);
     printf("\tVertices: %d\n", vertex_count);
@@ -237,25 +237,70 @@ static void init_vertex_data(user_data_t* user_data)
     // Rewind the file pointer:
     rewind(obj);
 
-    // TODO: Allocate memory:
-
     // - one array for the obj vertices
+    obj_vertex_entry_t *vertices = malloc(sizeof(obj_vertex_entry_t) * vertex_count);
+    check_error(vertices != NULL, "Failed to allocate memory for vertices.");
+
     // - one array for the obj tex coords
+    obj_tex_coords_entry_t *tex_coords = malloc(sizeof(obj_tex_coords_entry_t) * tex_coords_count);
+    check_error(tex_coords != NULL, "Failed to allocate memory for tex coordinates.");
+
     // - one array for the obj normals
+    obj_normal_entry_t *normals = malloc(sizeof(obj_normal_entry_t) * normal_count);
+    check_error(normals != NULL, "Failed to allocate memory for normals.");
+
     // - one array for the vertex data structs (built from the faces)
+    vertex_data_t *vertex_data = malloc(sizeof(vertex_data_t) * face_count * 3);
+    check_error(vertex_data != NULL, "Failed to allocate memory for vertex data.");
 
-    // TODO: Walk all the entries in the obj file using a while loop.
+    obj_entry_type_t entry_type;
+    obj_entry_t entry;
 
-    // obj_entry_type_t entry_type;
-    // obj_entry_t entry;
-    // while ((entry_type = obj_get_next_entry(obj, &entry)) != OBJ_ENTRY_TYPE_END) { ... }
-    user_data->vertex_data_count = 0;
+    size_t vertex_index = 0;
+    size_t tex_coord_index = 0;
+    size_t normal_index = 0;
+    size_t vertex_data_index = 0;
 
-    // TODO: Upload the data to the GTPU:
-    // glBufferData(...)
+    while ((entry_type = obj_get_next_entry(obj, &entry)) != OBJ_ENTRY_TYPE_END)
+    {
+        switch (entry_type)
+        {
+            case OBJ_ENTRY_TYPE_VERTEX:
+                vertices[vertex_index++] = entry.vertex_entry;
+                break;
+            case OBJ_ENTRY_TYPE_TEX_COORDS:
+                tex_coords[tex_coord_index++] = entry.tex_coords_entry;
+                break;
+            case OBJ_ENTRY_TYPE_NORMAL:
+                normals[normal_index++] = entry.normal_entry;
+                break;
+            case OBJ_ENTRY_TYPE_FACE:
+                for (size_t i = 0; i < 3; i++)
+                {
+                    obj_vertex_entry_t vertex = vertices[entry.face_entry.triples[i].vertex_index];
+                    vertex_data_t current_vertex_data = {
+                        .position = { vertex.x, vertex.y, vertex.z },
+                        .color = { 0x80, 0x80, 0x80 }
+                    };
+                    vertex_data[vertex_data_index + i] = current_vertex_data;
+                }
 
-    // TODO: Release allocated memory and close the obj file:
+                vertex_data_index += 3;
+                break;
+
+            default: break;
+        }
+    }
+    user_data->vertex_data_count = face_count * 3;
+
+    // Upload the data to the GPU:
+    glBufferData(GL_ARRAY_BUFFER, user_data->vertex_data_count * sizeof(vertex_data_t), (const GLvoid*)vertex_data, GL_STATIC_DRAW);
+
     fclose(obj);
+    free(vertices);
+    free(tex_coords);
+    free(normals);
+    free(vertex_data);
 
     // Position attribute:
     // Number of attribute, number of components, data type, normalize, stride, pointer (= offset)
