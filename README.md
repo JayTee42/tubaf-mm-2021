@@ -12,9 +12,7 @@
 | 07. - 11. Juni     | OpenGL I                     | [Vorlesung](https://www.youtube.com/watch?v=N64QlJzXqfM), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/vl05.pdf), [Mitschnitt](https://teach.informatik.tu-freiberg.de/playback/presentation/2.0/playback.html?meetingId=582e5bc54d5449187b47904734197edf2dffad4b-1623239599821), [Agenda](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/Agenda.pdf), [GLFW](https://www.glfw.org/), [GLFW (Ubuntu-VM)](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/ubuntu_vm.md), [GLFW (Cygwin)](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/cygwin.md), [Glad](https://glad.dav1d.de/), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/05-OpenGL_01/Hausaufgabe5.md)|
 | 21. - 25. Juni     | OpenGL II                     | [Vorlesung](https://www.youtube.com/watch?v=dMRunsK60Q0), [Mitschnitt](https://teach.informatik.tu-freiberg.de/playback/presentation/2.0/playback.html?meetingId=582e5bc54d5449187b47904734197edf2dffad4b-1624449418893), [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/06-OpenGL_02/vl06.pdf)|
 
-
-
-> Die nächte Veranstaltung findet am 23.06.2021 ab 14 Uhr statt (erste Programmierübung zu OpenGL II)
+> Die nächte Veranstaltung findet am 07.07.2021 ab 14 Uhr statt (Programmierübung zu OpenGL III)
 
 ## Ablauf
 
