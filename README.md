@@ -14,7 +14,7 @@
 | 05. - 09. Juli     | OpenGL III                     | [Vorlesung](https://youtu.be/i8wq4JfoKnA), Mitschnitt, [Folien](https://github.com/JayTee42/tubaf-mm-2021/blob/main/07-OpenGL_03/vl07.pdf), [Code (Depth)](https://github.com/JayTee42/tubaf-mm-2021/tree/main/07-OpenGL_03/code_01_depth), [Code (Gouraud)](https://github.com/JayTee42/tubaf-mm-2021/tree/main/07-OpenGL_03/code_02_flat_gouraud), [Code (Texture)](https://github.com/JayTee42/tubaf-mm-2021/tree/main/07-OpenGL_03/code_03_tex), [Code (Phong)](https://github.com/JayTee42/tubaf-mm-2021/tree/main/07-OpenGL_03/code_04_phong), [Hausaufgabe](https://github.com/JayTee42/tubaf-mm-2021/blob/main/07-OpenGL_03/Hausaufgabe6.md)|
 
 
-> Die nächte Veranstaltung findet am 07.07.2021 ab 14 Uhr statt (Programmierübung zu OpenGL III)
+> Die nächte Veranstaltung findet am 21.07.2021 ab 14 Uhr statt (kurze Besprechung zu den Projekten)
 
 ## Ablauf
 
