@@ -375,6 +375,13 @@ void init_gl(GLFWwindow* window)
     // Specify the clear color:
     glClearColor(0.1, 0.1, 0.1, 1);
     gl_check_error("glClearColor");
+
+    // Enable the depth test:
+    glEnable(GL_DEPTH_TEST);
+    gl_check_error("glEnable [depth test]");
+
+    // Enable backface culling:
+    //glEnable(GL_CULL_FACE);
 }
 
 void update_gl(GLFWwindow* window)
@@ -400,7 +407,7 @@ void draw_gl(GLFWwindow* window)
     user_data_t* user_data = glfwGetWindowUserPointer(window);
 
     // Clear the color buffer -> background color:
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     gl_check_error("glClear");
 
     // Draw our stuff!

@@ -33,7 +33,7 @@ void main()
         0.0,                0.0,    0.0,            1.0
     );
 
-    vec4 trans = vec4(0.0, -2.5, -7.0, 1.0);
+    vec4 trans = vec4(0.0, -4.0, -7.0, 1.0);
 
     gl_Position = frustum * ((rot_y * v_position) + trans);
     f_color = v_color;
