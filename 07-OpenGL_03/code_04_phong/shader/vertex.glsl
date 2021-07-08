@@ -46,5 +46,5 @@ void main()
     f_color = v_color;
     f_tex_coords = v_tex_coords;
     f_pos = pos;
-    f_normal = normalize((rot_y * v_normal).xyz);
+    f_normal = (rot_y * v_normal).xyz;
 }
