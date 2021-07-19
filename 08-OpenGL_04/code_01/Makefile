@@ -9,7 +9,7 @@ else
 	LDFLAGS=-lglfw -ldl -lm
 endif
 
-TARGET=mandelbrot
+TARGET=mandelbrot.out
 OBJECTS=$(patsubst %.c, %.o, $(wildcard src/*.c))
 
 all: $(TARGET)
