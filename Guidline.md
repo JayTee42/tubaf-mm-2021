@@ -19,16 +19,16 @@
   * Umfang: 8-15 Seiten (normaler Zeilenabstand, nicht 1.5fach, skaliert mit Gruppengröße)
   * Abgabe als PDF (kein docx, doc etc.)
 
-  1. Codedokumentation
+  - Codedokumentation
      * Grobstruktur des Projekts erläutern (ggf. Klassendiagramm)
      * ausgewählte, kritische Codeteile erläutern
      * ggf. Speichermanagement? Design Pattern? ...
-  2. Projektdokumentation
+  - Projektdokumentation
      * Dokumentation der Arbeitsweise
      * Aufteilung der Arbeit auf Gruppenmitglieder
      * genutzte Tools, Entwicklungsumgebung
      * ggf. mathematische/theoretische Grundlagen zum Projekt
-  3. Benutzerhandbuch
+  - Benutzerhandbuch
      * kleine Anleitung aus Benutzersicht (ggf. Use Cases)
      * ggf. Anwendungsbeispiel
 
